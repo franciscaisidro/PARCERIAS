@@ -1,0 +1,577 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Parcerias</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
+</head>
+
+<body id="page-top" background-image="pa.jpg">
+    <div id="wrapper">
+{% block navegacao %}
+        {% if request.user.is_authenticated %}
+            {% if user.groups.all.0.name == "parceiro" %}
+            <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+                <div class="container-fluid d-flex flex-column p-0">
+                    <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"  href="{% url 'index' %}">
+                        <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-handshake"></i></div>
+                        <div class="sidebar-brand-text mx-3"><span>Parcerias</span></div>
+                    </a>
+                    <hr class="sidebar-divider my-0">
+                    <ul class="navbar-nav text-light" id="accordionSidebar">
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}"><i class="fas fa-home"></i><span>Inicio</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'listar-perfil-parceiro' %}"><i class="fas fa-user"></i><span>Meu Perfil</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'loja' %}"><i class="fas fa-warehouse"></i><span>Lojas</span></a></li>
+                        <li class="nav-item"><a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#myModal1"><i class="fas fa-plus"></i><span>Minhas Parcerias</span></a></li>
+                        <li class="nav-item">
+                            <a class="nav-link">
+                                <form method="post" action="{% url 'logout' %}">
+                                    <i class="fas fa-door-open"></i>
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Sair</button>
+                                </form>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+                </div>
+            </nav>
+    
+            <div class="d-flex flex-column" id="content-wrapper">
+                <div id="content">
+                    <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                        <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                            <ul class="navbar-nav flex-nowrap ms-auto">
+                                <li class="nav-item dropdown no-arrow">
+                                    <div class="nav-item dropdown no-arrow">
+                                        <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                            <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ request.user }}</span>
+                                            <img class="border rounded-circle img-profile" src="{% static 'assets/img/avatars/cli.jpg' %}">
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    {% elif user.groups.all.0.name == "loja" %}
+            <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+                <div class="container-fluid d-flex flex-column p-0">
+                    <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"  href="{% url 'index' %}">
+                        <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-handshake"></i></div>
+                        <div class="sidebar-brand-text mx-3"><span>Parcerias</span></div>
+                    </a>
+                    <hr class="sidebar-divider my-0">
+                    <ul class="navbar-nav text-light" id="accordionSidebar">
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}"><i class="fas fa-home"></i><span>Inicio</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'listar-perfil-loja' %}"><i class="fas fa-user"></i><span>Perfil da Loja</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'listar-produto' %}"><i class="fas fa-store"></i><span>Produtos</span></a></li>
+                        <li class="nav-item"><a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#myModal2"><i class="fas fa-plus"></i><span>Parcerias Cridas</span></a></li>
+                        <li class="nav-item">
+                            <a class="nav-link">
+                                <form method="post" action="{% url 'logout' %}">
+                                    <i class="fas fa-door-open"></i>
+                                        {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Sair</button>
+                                </form>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+                </div>
+            </nav>
+    
+            <div class="d-flex flex-column" id="content-wrapper">
+                <div id="content">
+                    <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                        <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                            <ul class="navbar-nav flex-nowrap ms-auto">
+                                <li class="nav-item dropdown no-arrow">
+                                    <div class="nav-item dropdown no-arrow">
+                                        <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                            <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ request.user }}</span>
+                                            <img class="border rounded-circle img-profile" src="{% static 'assets/img/avatars/loja.jpg' %}">
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+            {% else %}
+            
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"  href="{% url 'index' %}">
+                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-handshake"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span>Parcerias</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}"><i class="fas fa-home"></i><span>Inicio</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'listar-usuarios-parceiro' %}"><i class="fas fa-user"></i><span>Parceiros</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'listar-usuarios-loja' %}"><i class="fas fa-warehouse"></i><span>Lojas</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'listar-provincia' %}"><i class="fas fa-plus"></i><span>Províncias</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'listar-municipio' %}"><i class="fas fa-plus"></i><span>Munícipios</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'listar-bairro' %}"><i class="fas fa-plus"></i><span>Bairros</span></a></li>
+                    <li class="nav-item"><a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fas fa-plus"></i><span>Parcerias Criadas</span></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <form method="post" action="{% url 'logout' %}">
+                                <i class="fas fa-door-open"></i>
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Sair</button>
+                            </form>
+                        </a>
+                    </li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ request.user }}</span>
+                                        <img class="border rounded-circle img-profile" src="{% static 'assets/img/avatars/adm.jpg' %}">
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                {% endif %}
+
+{% else %}
+
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"  href="{% url 'index' %}">
+                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-handshake"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span>Parcerias</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}"><i class="fas fa-home"></i><span>Inicio</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'loja' %}"><i class="fas fa-warehouse"></i><span>Lojas</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-door-open"></i><span>Login</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'criar-conta-parceiro' %}"><i class="fas fa-user-plus"></i><span>Criar Conta</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="d-none d-lg-inline me-2 text-gray-600 small">Conta</span>
+                                        <img class="border rounded-circle img-profile" src="{% static 'assets/img/avatars/user.png' %}">
+                                    </a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{% url 'login' %}">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Login
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+{% endif %}
+{% endblock %}
+
+{% block conteudo %}
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-dark mb-0">SEJA BEM-VINDO AO PARCERIAS</h2>
+                    </div>
+
+
+                    <div class="carrosel">
+                        
+                        <ul>
+                            <li> 
+                                <img src="static/assets/img/avatars/image.png" alt="PARCERIA">
+                            </li>
+                            <li> 
+                                <img src="static/assets/img/avatars/B.jpg" alt="PARCERIA">
+                            </li>
+                            
+                            </ul>
+                    
+                    
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12 col-xl-12 mb-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <span class="text-justify">
+                                            Cansou de gritar tentando achar um(a) sócio?
+                                            Aqui as tuas buscas são mais facilitadas.
+                                            <br>Com a aplicação "PARCERIAS" tudo fica bem mais fácil! <br>
+                                            Aqui você encontrará o teu parceiro para partilha das despesas com apenas um Clique.
+                                        </span> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                    <div class="row">
+                        <div class="col-md-6 col-xl-6 mb-4">
+                            <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                                <h3 class="text-dark mb-0">PRODUTO</h3>
+                            </div>
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        Os Produtos mais variados, com a melhor qualidade e preços baixo, que cabe para qualquer bolso.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 mb-4">
+                            <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                                <h3 class="text-dark mb-0">PARCEIRO</h3>
+                            </div>
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        Os teus parceiros fidelizados e sérios. Aqui vc os encontrará facilmente sem ter que ficar gritando e prejudicar a sua saúde.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                     <!-- 
+                    <div class="row">
+                        <div class="col-md-6 col-xl-6 mb-4">
+                            <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                                <h3 class="text-dark mb-0">CLIENTES</h3>
+                            </div>
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        Os mais variados Clientes você encontra aqui.
+                                    </div>
+                                </div>
+                            </div>
+                        </div-->
+
+
+                        <div class="col-md-6 col-xl-6 mb-4">
+                            <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                                <h3 class="text-dark mb-0">LOJA</h3>
+                            </div>
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        As melhores lojas da cidade, com os maiores fornecedores, agora bem mais perto de ti. Podes facilmente ver as lojas da tua cidade e seus produtos sem sair de casa
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+{% endblock %}
+{% block footer %}
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h4 class="modal-title">Parcerias</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <a class="btn btn-info" href="{% url 'parcerias1' %}">2</a>
+          <a class="btn btn-info" href="{% url 'parcerias2' %}">3</a>
+          <a class="btn btn-info" href="{% url 'parcerias3' %}">4</a>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary d-block btn-user w-10" data-bs-dismiss="modal">fechar</button>
+        </div>
+  
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h4 class="modal-title">Minhas Parcerias</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <a class="btn btn-info" href="{% url 'listar-parceria1' %}">2</a>
+          <a class="btn btn-info" href="{% url 'listar-parceria2' %}">3</a>
+          <a class="btn btn-info" href="{% url 'listar-parceria3' %}">4</a>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary d-block btn-user w-10" data-bs-dismiss="modal">fechar</button>
+        </div>
+  
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h4 class="modal-title">Parcerias na Loja</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <a class="btn btn-info" href="{% url 'loja-parceria-disponiveis1' %}">2</a>
+          <a class="btn btn-info" href="{% url 'loja-parceria-disponiveis2' %}">3</a>
+          <a class="btn btn-info" href="{% url 'loja-parceria-disponiveis3' %}">4</a>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary d-block btn-user w-10" data-bs-dismiss="modal">fechar</button>
+        </div>
+  
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal4">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h4 class="modal-title">Parcerias Dispiníveis</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <a class="btn btn-info" href="#">2</a>
+          <a class="btn btn-info" href="#">3</a>
+          <a class="btn btn-info" href="#">4</a>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary d-block btn-user w-10" data-bs-dismiss="modal">fechar</button>
+        </div>
+  
+      </div>
+    </div>
+</div>
+
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Desenvolvido por Francisca Isidro 2023</span></div>
+                </div>
+            </footer>
+
+        </div>
+        <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+{% endblock %}
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/chart.min.js' %}"></script>
+    <script src="{% static 'assets/js/bs-init.js' %}"></script>
+    <script src="{% static 'assets/js/theme.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'DataTables/datatables.min.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+          $("#id_contato1").mask("000000000"),
+          $("#id_contato2").mask("000000000"),
+          $("#id_contato").mask("000000000"),
+          $("#id_telefone").mask("000000000")
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+          $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+          $("#tabela").DataTable({
+            responsive:true,
+            "aaSorting":[],
+            "language":{
+                "decimal":"",
+                "emptyTable":"Sem dados disponíveis",
+                "info":"Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "infoFiltered":"(Filtrando de _MAX_ registros no total)",
+                "infoPostFix":"",
+                "thousands":",",
+                "lengthMenu":"Mostrar _MENU_ registros",
+                "loadingRecords":"A carregar dados...",
+                "processing":"A processar",
+                "search":"Procurar:",
+                "zeroRecords":"Não foram encontrados resultados",
+                "paginate":{
+                    "first":"Primeiro",
+                    "last":"Último",
+                    "next":"Próximo",
+                    "previous":"Anterior",
+                },
+                "aria":{
+                    "sortAscending":"ordem crescente",
+                    "sortDescending":"ordem decrescente"
+                }
+            }
+          });
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+<style>
+
+    h2{
+        font-family: monospace;
+        border-right: 6px solid;
+        width: 45ch;
+        white-space: nowrap ;
+        overflow: hidden;
+        animation: type .2s step-end infinite, bling 4s steps(22,end)  infinite alternate ;
+    
+        }
+    
+      
+        @keyframes type{
+    
+            50%{
+                border-right-color: transparent;
+            }
+        }
+    
+        @keyframes bling{
+            50%{
+                width:45ch;
+            }
+            70%{
+                width:45ch;
+            }
+            85%{
+                width: 0;
+            }
+            100%{
+                width: 0;
+            }
+        }
+    
+    .text-dark{
+    
+        background: linear-gradient(90deg,#1637f1,#99abaf);
+        font-family: Poppins;
+        font-size: 40px;
+        text-decoration: uppercase;
+        -webkit-background-clip: text-dark;
+        -webkit-text-fill-color: white;
+    }
+    
+
+
+
+
+
+
+.carrosel{
+    width:90%;
+    height: 200px;
+    overflow: hidden;
+    margin: 50px auto;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.6);
+    outline: 3px solid blue;
+    border-radius: 5px;
+    
+        }
+    
+        .carrosel ul {
+    display: flex;
+    list-style: none;
+    width: 4000%;
+    height: 400px;
+    padding: 0px;
+    animation: slide 10s infinite alternate easi-out ;
+    
+        }
+    
+        .carrosel li{
+           
+            position: relative;
+            width: 50%;
+             }
+    
+             .carrosel img{
+                width: 1000px;
+                height: 250px;
+             }
+    
+    
+             @keyframes slide{
+    
+                0%{margin-left: 0; }
+                15%{ margin-left: 0; }
+    
+                15%{ margin-left: -100%; }
+                35%{  margin-left: -100%; }
+    
+                35%{ margin-left: -200%; }
+                50%{ margin-left: -200%; }
+    
+                50%{  margin-left: -300%; }
+                65%{ margin-left: -300%;  }
+
+                65%{  margin-left: -200%; }
+                75%{ margin-left: -200%;  }
+
+                75%{  margin-left: -100%; }
+                85%{ margin-left: -100%;  }
+
+                90%{  margin-left: 0%; }
+                100%{ margin-left: 0%;  }
+    
+             }
+    
+    @media(max-width:991px){
+    
+        .carrosel{
+            width: 50%;
+        }
+    }
+
+</style>

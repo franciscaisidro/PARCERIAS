@@ -1,0 +1,60 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Parcerias</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome-all.min.css' %}">
+    <script type="text/javascript">
+		
+	</script>
+</head>
+
+<body class="bg-gradient-primary" onload="alert('Conta Criada Com Sucesso!');">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-12 col-xl-10">
+                <div class="card shadow-lg o-hidden border-0 my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-flex">
+                                <div class="flex-grow-1 bg-login-image" style="background-image: url(&quot;{% static 'assets/img/avatars/image.png' %}&quot;);"></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h4 class="text-dark mb-4">BEM-VINDO DE VOLTA!</h4>
+                                    </div>
+                                    <form class="user" method="post">
+                                        <div class="mb-3">
+                                            {% csrf_token %}
+            
+                                            {{ form|crispy }}
+                                        </div>
+                                        
+                                        <button class="btn btn-primary d-block btn-user w-100" type="submit">Login <i class="fa fa-door-open"></i></button>
+                                        <hr>
+                                    </form>
+                                    <div class="text-center"><a class="small" href="#">Esqueceu a palavra-passe?</a></div>
+                                    <div class="text-center"><a class="small" href="{% url 'criar-conta-parceiro' %}">Criar conta!</a></div>
+                                    <div class="text-center">Venha fazer parte do Parceria</div>
+                                    <div class="text-center">Nunca foi tão fácil encontrar parceiros</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/bs-init.js' %}"></script>
+    <script src="{% static 'assets/js/theme.js' %}"></script>
+</body>
+
+</html>

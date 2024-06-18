@@ -1,0 +1,65 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Parcerias</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome-all.min.css' %}">
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-12 col-xl-10">
+                <div class="card shadow-lg o-hidden border-0 my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-flex">
+                                <div class="flex-grow-1 bg-login-image" style="background-image: url(&quot;{% static 'assets/img/dogs/pa.jpg' %}&quot;);"></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h4 class="text-dark mb-4">BEM-VINDO AO PARCERIAS!</h4>
+                                    </div>
+                                    <div>
+                                        <div class="alert alert-success">
+                                           <strong>Precisa estar logado para poder fazer parte de uma Parceria,
+                                            <a href="{% url 'login' %}">clique aqui</a> para logar</strong> 
+                                            <button type="button" class="btn-close" role="alert" aria-label="fechar" data-bs-dismiss="alert"></button>                                    
+                                        </div>
+                                        <div class="alert alert-info">
+                                            <strong>Se ainda não possui uma conta 
+                                             <a href="{% url 'criar-conta-parceiro' %}">clique aqui</a> para criar uma conta.</strong> 
+                                             <button type="button" class="btn-close" role="alert" aria-label="fechar" data-bs-dismiss="alert"></button>                                    
+                                         </div>
+                                         <div class="alert alert-danger">
+                                            <strong>Podera não ter permissão para efetuar a acção pretendida</strong> 
+                                             <button type="button" class="btn-close" role="alert" aria-label="fechar" data-bs-dismiss="alert"></button>                                    
+                                         </div>
+                                         <div class="alert alert-warning">
+                                            <strong>Contacte os Admistradores do Parceria <a href="free.facebook.com">clique aqui</a></strong> 
+                                             <button type="button" class="btn-close" role="alert" aria-label="fechar" data-bs-dismiss="alert"></button>                                    
+                                         </div>
+                                    </div>
+                                    <div class="text-center">Venha fazer parte do Parceria</div>
+                                    <div class="text-center">Nunca foi tão fácil encontrar parceiros</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/bs-init.js' %}"></script>
+    <script src="{% static 'assets/js/theme.js' %}"></script>
+</body>
+
+</html>
